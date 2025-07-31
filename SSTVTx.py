@@ -46,7 +46,7 @@ def transmit_image(image_path):
     enable_tx()
 
     # Run the SSTV image-to-audio bash script
-    subprocess.run(["./image2wav.sh", image_path])
+    subprocess.run(["/home/pi/balloontv/Image2Wav.sh", image_path])
 
     # Wait briefly before ending TX
     time.sleep(0.5)
@@ -55,7 +55,7 @@ def transmit_image(image_path):
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print("Usage: python3 sstv_transmit.py image.jpg")
+        print("Usage: python3 SSTVTx.py image.jpg")
         sys.exit(1)
 
     image_file = sys.argv[1]
