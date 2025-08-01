@@ -1,14 +1,18 @@
 #!/bin/bash
 
-INPUT_IMG="$1"
-RESIZED="resized.jpg"
-WAVFILE="sstv.wav"
+# Initialize timestamp, unique file name, and temporary tagged file name
+TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
+FILENAME="image_$TIMESTAMP.jpg"
+TAGGED="image_tagged.jpg"
 
-# Resize for SSTV (forces 320x256 even if it distorts)
-convert "$INPUT_IMG" -resize '320x256!' "$RESIZED"
+# Capture image
+libcamera-jpeg -o "$FILENAME" --width 320 --height 256
+
+# Overlay Callsign
+composite -gravity East -geometry +10+0 vertical_callsign_overlay.png "$FILENAME" "$TAGGED"
 
 # Generate SSTV audio
-~/PiSSTVpp/pisstvpp -r 22050 -p m2 "$RESIZED"
+~/PiSSTVpp/pisstvpp -r 22050 -p m2 "$TAGGED"
 
 # Transmit via speaker, check hardware designation with aplay -l
-sox "$RESIZED.wav" -t alsa -D plughw:2,0
+sox "$TAGGED.wav" -t alsa -D plughw:2,0
