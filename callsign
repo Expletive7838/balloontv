@@ -1,9 +1,0 @@
-#!/bin/bash
-  
-#creates transparent callsign overlay image for SSTVTx.py
-  
-convert -size 40x256 xc:none \
-    -gravity North \
-    -fill red -pointsize 24 -font DejaVu-Sans-Bold \
-    -annotate +0+0 'K\nO\n4\nR\nH\nC' \
-    vertical_callsign_overlay.png
