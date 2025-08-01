@@ -3,13 +3,17 @@
 # Initialize timestamp, unique file name, and temporary tagged file name
 TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
 FILENAME="image_$TIMESTAMP.jpg"
+RESIZED="image_resized.jpg"
 TAGGED="image_tagged.jpg"
 
 # Capture image
-libcamera-jpeg -o "$FILENAME" --width 320 --height 256
+libcamera-jpeg -o "$FILENAME" --width 4608 --height 2592
+
+# Resizes image for SSTV mode
+convert "$FILENAME" -resize 320x256 "$RESIZED"
 
 # Overlay Callsign
-composite -gravity East -geometry +10+0 vertical_callsign_overlay.png "$FILENAME" "$TAGGED"
+composite -gravity East -geometry +10+0 vertical_callsign_overlay.png "$RESIZED" "$TAGGED"
 
 # Generate SSTV audio
 ~/PiSSTVpp/pisstvpp -r 22050 -p m2 "$TAGGED"
