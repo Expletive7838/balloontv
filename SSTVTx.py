@@ -3,6 +3,7 @@ import serial
 import time
 import sys
 import os
+import RPi.GPIO as GPIO
 
 # UART setup (adjust as needed)
 UART_PORT = '/dev/serial0'
@@ -14,6 +15,11 @@ RX_FREQ = '145.5000'
 
 # Initialize UART serial connection
 ser = serial.Serial(UART_PORT, BAUD_RATE, timeout=1)
+
+# Setup GPIO to control TxRx
+GPIO.setmode(GPIO.BCM)
+PIN = 17
+GPIO.setup(PIN, GPIO.OUT)
 
 def send_at(cmd):
     full_cmd = cmd + '\r\n'
@@ -27,11 +33,11 @@ def configure_radio():
     time.sleep(0.2)
 
 def enable_tx():
-    send_at("AT+SETGPIO=1")  # TX on
+    GPIO.output(PIN, GPIO.LOW)  # TX on
     print("[TX] Enabled")
 
 def disable_tx():
-    send_at("AT+SETGPIO=0")  # TX off
+    GPIO.output(PIN, GPIO.HIGH)  # TX off
     print("[TX] Disabled")
 
 def transmit_image(image_path):
