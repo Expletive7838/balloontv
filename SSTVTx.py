@@ -40,11 +40,7 @@ def disable_tx():
     GPIO.output(PIN, GPIO.HIGH)  # TX off
     print("[TX] Disabled")
 
-def transmit_image(image_path):
-    if not os.path.isfile(image_path):
-        print(f"[Error] Image file not found: {image_path}")
-        return
-
+def transmit_image():
     print("[*] Configuring radio...")
     configure_radio()
 
@@ -52,7 +48,7 @@ def transmit_image(image_path):
     enable_tx()
 
     # Run the SSTV image-to-audio bash script
-    subprocess.run(["/home/pi/balloontv/Image2Wav.sh", image_path])
+    subprocess.run(["/home/pi/balloontv/Image2Wav.sh"])
 
     # Wait briefly before ending TX
     time.sleep(0.5)
@@ -60,10 +56,4 @@ def transmit_image(image_path):
     print("[*] Transmission complete.")
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print("Usage: python3 SSTVTx.py image.jpg")
-        sys.exit(1)
-
-    image_file = sys.argv[1]
-    transmit_image(image_file)
-
+    transmit_image()
