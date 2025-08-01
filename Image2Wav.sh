@@ -10,5 +10,5 @@ convert "$INPUT_IMG" -resize '320x256!' "$RESIZED"
 # Generate SSTV audio
 ~/PiSSTVpp/pisstvpp -r 22050 -p m2 "$RESIZED"
 
-# Transmit via speaker
-aplay "$RESIZED.wav"
+# Transmit via speaker, check hardware designation with aplay -l
+sox "$RESIZED.wav" -t alsa -D plughw:2,0
