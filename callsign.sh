@@ -5,5 +5,5 @@
 convert -size 40x256 xc:none \
     -gravity North \
     -fill red -pointsize 24 -font DejaVu-Sans-Bold \
-    -annotate +0+0 'N\n0\nC\nA\nL\nL' \
+    -annotate +45+0 'N\n0\nC\nA\nL\nL' \
     vertical_callsign_overlay.png
