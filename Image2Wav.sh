@@ -7,13 +7,13 @@ RESIZED="image_resized.jpg"
 TAGGED="image_tagged.jpg"
 
 # Capture image
-libcamera-jpeg -o "$FILENAME" --width 4608 --height 2592
+rpicam-jpeg -o "$FILENAME" --timeout 0 --width 4608 --height 2592
 
 # Resizes image for SSTV mode
 convert "$FILENAME" -resize 320x256 "$RESIZED"
 
 # Overlay Callsign
-composite -gravity East -geometry +10+0 vertical_callsign_overlay.png "$RESIZED" "$TAGGED"
+composite -gravity East -geometry +0+0 vertical_callsign_overlay.png "$RESIZED" "$TAGGED"
 
 # Generate SSTV audio
 ~/PiSSTVpp/pisstvpp -r 22050 -p m2 "$TAGGED"
